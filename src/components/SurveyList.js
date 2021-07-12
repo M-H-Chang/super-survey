@@ -10,10 +10,10 @@ const SurveyList = ({ handleClickSurvey }) => {
 
   const surveys = useSelector(state => state.firestore.ordered.surveys)
 
-  if (isLoaded(surveys)) {
-    return (
-      <>
-        {surveys.map(survey => (
+  return (
+    <>
+      {isLoaded(surveys)
+        ? surveys.map(survey => (
           <Survey
             onClick={handleClickSurvey}
             title={survey.title}
@@ -23,13 +23,10 @@ const SurveyList = ({ handleClickSurvey }) => {
             id={survey.id}
             key={survey.id}
           />
-        ))}
-      </>
-    )
-  }
-  return (
-    <>
-      <h3>Loading....</h3>
+        ))
+        : <h3>Loading....</h3>
+      }
+      <button onClick={this.handleClick}>{buttonText}</button>
     </>
   )
 }
