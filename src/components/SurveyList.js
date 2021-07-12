@@ -26,7 +26,7 @@ const SurveyList = ({ handleClickSurvey }) => {
         ))
         : <h3>Loading....</h3>
       }
-      <button onClick={this.handleClick}>{buttonText}</button>
+      <button onClick={handleClickSurvey}>Add Survey</button>
     </>
   )
 }
