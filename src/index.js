@@ -5,7 +5,8 @@ import { Provider } from 'react-redux'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import "./index.css"
-import App from "./App"
+import App from "./components/App"
+import rootReducer from './reducers/index'
 import firebase from "./firebase"
 
 // import reportWebVitals from "./reportWebVitals"
