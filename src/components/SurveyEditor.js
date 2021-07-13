@@ -19,7 +19,7 @@ function SurveyEditor({ selectedSurveyId, viewList }) {
 
   useEffect(() => {
     if (survey) setSelectedSurvey(survey)
-  }, [])
+  }, [survey])
 
   function handleChange(e) {
     const { value, name } = e.target
@@ -90,7 +90,6 @@ function SurveyEditor({ selectedSurveyId, viewList }) {
 SurveyEditor.propTypes = {
   selectedSurveyId: string,
   viewList: func,
-  viewDetail: func,
 }
 
 export default SurveyEditor

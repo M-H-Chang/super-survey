@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { withFirestore } from 'react-redux-firebase'
 import SurveyList from './SurveyList'
 import SurveyDetail from './SurveyDetail'
 import SurveyEditor from './SurveyEditor'
@@ -31,7 +30,7 @@ const VIEWS = {
 //   });
 // }
 
-const SurveyControl = ({ formVisibleOnPage, masterSurveyList }) => {
+const SurveyControl = () => {
   const [selectedSurveyId, setSelectedSurveyId] = useState(null)
   const [currentView, setCurrentView] = useState(VIEWS.SURVEY_LIST)
 
@@ -81,4 +80,4 @@ SurveyControl.propTypes = {
   formVisibleOnPage: PropTypes.bool,
 }
 
-export default withFirestore(SurveyControl)
+export default SurveyControl
