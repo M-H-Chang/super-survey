@@ -1,6 +1,7 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useSelector } from "react-redux"
 import { func, string } from 'prop-types'
-import { useFirestore } from 'react-redux-firebase'
+import { useFirestoreConnect, useFirestore } from 'react-redux-firebase'
 
 function SurveyEditor({ selectedSurveyId, viewList }) {
   const firestore = useFirestore()
@@ -12,19 +13,13 @@ function SurveyEditor({ selectedSurveyId, viewList }) {
     question3: ``,
   })
 
-  if (selectedSurveyId) {
-    firestore.get({ collection: `surveys`, doc: selectedSurveyId })
-      .then(survey => {
-        const firestoreSurvey = {
-          title: survey.get(`title`),
-          question1: survey.get(`question1`),
-          question2: survey.get(`question2`),
-          question3: survey.get(`question3`),
-          id: survey.id,
-        }
-        setSelectedSurvey(firestoreSurvey)
-      })
-  }
+  useFirestoreConnect([{ collection: `surveys` }])
+
+  const survey = useSelector(state => state.firestore.data.surveys[selectedSurveyId])
+
+  useEffect(() => {
+    setSelectedSurvey(survey)
+  }, [])
 
   function handleChange(e) {
     const { value, name } = e.target
@@ -38,10 +33,6 @@ function SurveyEditor({ selectedSurveyId, viewList }) {
     if (selectedSurveyId) updateSurvey()
     else addNewSurveyToFirestore()
   }
-  // or
-  // const handleSubmit
-  // = selectedSurveyId ? e => updateSurvey() : e => addNewSurveyToFirestore()
-  //
 
   function addNewSurveyToFirestore() {
     viewList()
@@ -95,13 +86,6 @@ function SurveyEditor({ selectedSurveyId, viewList }) {
     </form>
   )
 }
-
-// const ISurvey = {
-//   title: string,
-//   question1: string,
-//   question2: string,
-//   question3: string,
-// }
 
 SurveyEditor.propTypes = {
   selectedSurveyId: string,
