@@ -39,7 +39,6 @@ function SurveyDetail({ selectedSurveyId, viewEditor, viewList }) {
             <button type='button' onClick={() => deleteSurvey()}>Delete</button>
           </>
         )
-
         : <h3>Loading....</h3>
       }
 
