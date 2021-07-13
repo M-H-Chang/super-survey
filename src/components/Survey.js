@@ -1,16 +1,27 @@
 import React from "react"
 import { string, func } from "prop-types"
 
+const KC_ENTER = 13
 function Survey({
+  onClick,
   title,
   question1,
   question2,
   question3,
   id,
 }) {
+  const handleKeyUp = e => {
+    if (e.keyCode === KC_ENTER) onClick(id)
+  }
+
   return (
     <>
-      <div onClick={() => props.whenSurveyClicked(id)}>
+      <div
+        tabIndex={0}
+        role='button'
+        onClick={() => onClick(id)}
+        onKeyUp={handleKeyUp}
+      >
         <h2>{title}</h2>
         <p>{question1}</p>
         <p>{question2}</p>
@@ -26,7 +37,7 @@ Survey.propTypes = {
   question2: string,
   question3: string,
   id: string,
-  whenSurveyClicked: func,
+  onClick: func,
 }
 
 export default Survey

@@ -1,84 +1,112 @@
 import React, { useState } from "react"
-import { func, string, shape } from 'prop-types'
+import { func, string } from 'prop-types'
 import { useFirestore } from 'react-redux-firebase'
 
-function SurveyEditor({ survey, onEditSurvey }) {
+function SurveyEditor({ selectedSurveyId, viewList }) {
   const firestore = useFirestore()
 
-  const [newSurvey, setNewSurvey] = useState(
-    survey || {
-      title: ``,
-      question1: ``,
-      question2: ``,
-      question3: ``,
-    }
-  )
+  const [selectedSurvey, setSelectedSurvey] = useState({
+    title: ``,
+    question1: ``,
+    question2: ``,
+    question3: ``,
+  })
+
+  if (selectedSurveyId) {
+    firestore.get({ collection: `surveys`, doc: selectedSurveyId })
+      .then(survey => {
+        const firestoreSurvey = {
+          title: survey.get(`title`),
+          question1: survey.get(`question1`),
+          question2: survey.get(`question2`),
+          question3: survey.get(`question3`),
+          id: survey.id,
+        }
+        setSelectedSurvey(firestoreSurvey)
+      })
+  }
 
   function handleChange(e) {
-    const { value, id } = e.target
-    const updatedState = { ...newSurvey }
-    updatedState[id] = value
-    setNewSurvey(updatedState)
+    const { value, name } = e.target
+    const updatedSurvey = { ...selectedSurvey }
+    updatedSurvey[name] = value
+    setSelectedSurvey(updatedSurvey)
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    if (selectedSurveyId) updateSurvey()
+    else addNewSurveyToFirestore()
+  }
+  // or
+  // const handleSubmit
+  // = selectedSurveyId ? e => updateSurvey() : e => addNewSurveyToFirestore()
+  //
+
+  function addNewSurveyToFirestore() {
+    viewList()
+    return firestore.collection(`surveys`).add(selectedSurvey)
   }
 
   function updateSurvey() {
-    onEditSurvey()
+    viewList()
     return firestore.update(
-      { collection: `Surveys`, doc: Survey.id },
-      newSurvey
+      {
+        collection: `surveys`,
+        doc: selectedSurveyId,
+      },
+      selectedSurvey
     )
   }
 
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      {/* onSubmit={handleSubmit} === onSubmit={e => handleSubmit(e)} */}
       <input
-        id='title'
         onChange={handleChange}
         type='text'
         name='title'
         placeholder='Survey Title'
-        defaultValue={survey.title}
+        defaultValue={selectedSurvey.title}
       />
       <input
-        id='question1'
         onChange={handleChange}
         type='text'
         name='question1'
         placeholder='Survey Question 1.'
-        defaultValue={survey.question1}
+        defaultValue={selectedSurvey.question1}
       />
       <input
-        id='question2'
         onChange={handleChange}
         type='text'
         name='question2'
         placeholder='Survey Question 2.'
-        defaultValue={survey.question2}
+        defaultValue={selectedSurvey.question2}
       />
       <input
-        id='question3'
         onChange={handleChange}
         type='text'
         name='question3'
         placeholder='Survey Question 3.'
-        defaultValue={survey.question3}
+        defaultValue={selectedSurvey.question3}
       />
-      <button onClick={handleClickSurvey}>Update Survey</button>
-      <button onClick={handleClickSurvey}>Cancel</button>
+      <button type='button' onClick={viewList}>Cancel</button>
+      <button type='submit'>Done</button>
     </form>
   )
 }
 
-const ISurvey = {
-  title: string,
-  question1: string,
-  question2: string,
-  question3: string,
-}
+// const ISurvey = {
+//   title: string,
+//   question1: string,
+//   question2: string,
+//   question3: string,
+// }
 
 SurveyEditor.propTypes = {
-  Survey: shape(ISurvey),
-  onEditSurvey: func,
+  selectedSurveyId: string,
+  viewList: func,
+  viewDetail: func,
 }
 
 export default SurveyEditor

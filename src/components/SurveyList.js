@@ -3,7 +3,7 @@ import { useFirestoreConnect, isLoaded } from 'react-redux-firebase'
 import { func } from "prop-types"
 import Survey from "./Survey"
 
-const SurveyList = ({ handleClickSurvey }) => {
+const SurveyList = ({ viewDetail, viewEditor }) => {
   useFirestoreConnect([
     { collection: `surveys` },
   ])
@@ -15,7 +15,7 @@ const SurveyList = ({ handleClickSurvey }) => {
       {isLoaded(surveys)
         ? surveys.map(survey => (
           <Survey
-            onClick={handleClickSurvey}
+            onClick={() => viewDetail(survey.id)}
             title={survey.title}
             question1={survey.question1}
             question2={survey.question2}
@@ -26,13 +26,14 @@ const SurveyList = ({ handleClickSurvey }) => {
         ))
         : <h3>Loading....</h3>
       }
-      <button onClick={handleClickSurvey}>Add Survey</button>
+      <button onClick={() => viewEditor()}>Add Survey</button>
     </>
   )
 }
 
 SurveyList.propTypes = {
-  handleClickSurvey: func,
+  viewDetail: func.isRequired,
+  viewEditor: func.isRequired,
 }
 
 export default SurveyList

@@ -1,11 +1,9 @@
 import React, { useState } from 'react'
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { withFirestore } from 'react-redux-firebase'
 import SurveyList from './SurveyList'
 import SurveyDetail from './SurveyDetail'
 import SurveyEditor from './SurveyEditor'
-import * as a from "../actions"
 
 const VIEWS = {
   SURVEY_LIST: `SURVEY_LIST`,
@@ -34,73 +32,44 @@ const VIEWS = {
 // }
 
 const SurveyControl = ({ formVisibleOnPage, masterSurveyList }) => {
-  const [selectedSurvey, setSelectedSurvey] = useState(null)
+  const [selectedSurveyId, setSelectedSurveyId] = useState(null)
   const [currentView, setCurrentView] = useState(VIEWS.SURVEY_LIST)
 
+  console.log(`currentView`, currentView)
+  console.log(`selectedSurveyId`, selectedSurveyId)
+
   const viewDetail = id => {
-    setSelectedSurvey(id)
+    setSelectedSurveyId(id)
     setCurrentView(VIEWS.SURVEY_DETAIL)
   }
-  const viewEditor = id => {
-    setSelectedSurvey(id)
+  const viewEditor = (id = null) => {
+    setSelectedSurveyId(id)
     setCurrentView(VIEWS.SURVEY_EDITOR)
   }
   const viewList = () => {
-    setSelectedSurvey()
+    setSelectedSurveyId()
     setCurrentView(VIEWS.SURVEY_LIST)
   }
-
-  // handleAddingNewSurveyToList = () => {
-  //   const { dispatch } = this.props
-  //   const action = a.toggleForm()
-  //   dispatch(action)
-  // }
-
-  // handleEditingSurveyInList = () => {
-  //   this.setState({
-  //     editing: false,
-  //     selectedSurvey: null,
-  //   })
-  // }
-
-  // handleChangingSelectedSurvey = id => {
-  //   this.props.firestore.get({ collection: `surveys`, doc: id }).then(survey => {
-  //     const firestoreSurvey = {
-  //       names: survey.get(`names`),
-  //       location: survey.get(`location`),
-  //       issue: survey.get(`issue`),
-  //       id: survey.id,
-  //     }
-  //     this.setState({ selectedSurvey: firestoreSurvey })
-  //   })
-  // }
-
-  // handleDeletingSurvey = id => {
-  //   this.props.firestore.delete({ collection: `surveys`, doc: id })
-  //   this.setState({ selectedSurvey: null })
-  // }
 
   return (() => {
     switch (currentView) {
       case VIEWS.SURVEY_DETAIL: return (
         <SurveyDetail
-          survey={selectedSurvey}
-          onClickingDelete={undefined}
-          onClickingEdit={undefined}
+          selectedSurveyId={selectedSurveyId}
+          viewEditor={viewEditor}
         />
       )
       case VIEWS.SURVEY_LIST: return (
         <SurveyList
-          surveyList={masterSurveyList}
-          onSurveySelection={undefined}
+          viewDetail={viewDetail}
+          viewEditor={viewEditor}
         />
       )
       case VIEWS.SURVEY_EDITOR: return (
         <SurveyEditor
-          survey={selectedSurvey}
+          selectedSurveyId={selectedSurveyId}
           viewList={viewList}
           viewDetail={viewDetail}
-          onEditSurvey={this.handleEditingSurveyInList}
         />
       )
       default: throw new Error(`Unexpected View`)
