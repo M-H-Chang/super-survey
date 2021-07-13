@@ -18,7 +18,7 @@ function SurveyEditor({ selectedSurveyId, viewList }) {
   const survey = useSelector(state => state.firestore.data.surveys[selectedSurveyId])
 
   useEffect(() => {
-    setSelectedSurvey(survey)
+    if (survey) setSelectedSurvey(survey)
   }, [])
 
   function handleChange(e) {
