@@ -1,5 +1,6 @@
 import React from "react"
 import { string, func } from "prop-types"
+import { Link } from "react-router-dom"
 
 const KC_ENTER = 13
 function Survey({
@@ -16,17 +17,12 @@ function Survey({
 
   return (
     <>
-      <div
-        tabIndex={0}
-        role='button'
-        onClick={() => onClick(id)}
-        onKeyUp={handleKeyUp}
-      >
+      <Link to={`/surveys/${id}`}>
         <h2>{title}</h2>
         <p>{question1}</p>
         <p>{question2}</p>
         <p>{question3}</p>
-      </div>
+      </Link>
     </>
   )
 }

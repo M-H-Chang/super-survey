@@ -3,6 +3,7 @@ import { css } from "@emotion/react"
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect, isLoaded } from 'react-redux-firebase'
 import { func } from "prop-types"
+import { Link } from "react-router-dom"
 import Survey from "./Survey"
 
 const SurveyList = ({ viewDetail, viewEditor }) => {

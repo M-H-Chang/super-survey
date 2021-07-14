@@ -1,5 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+} from "react-router-dom"
 import SurveyList from './SurveyList'
 import SurveyDetail from './SurveyDetail'
 import SurveyEditor from './SurveyEditor'
@@ -50,30 +56,29 @@ const SurveyControl = () => {
     setCurrentView(VIEWS.SURVEY_LIST)
   }
 
-  return (() => {
-    switch (currentView) {
-      case VIEWS.SURVEY_DETAIL: return (
-        <SurveyDetail
-          selectedSurveyId={selectedSurveyId}
-          viewEditor={viewEditor}
-        />
-      )
-      case VIEWS.SURVEY_LIST: return (
-        <SurveyList
-          viewDetail={viewDetail}
-          viewEditor={viewEditor}
-        />
-      )
-      case VIEWS.SURVEY_EDITOR: return (
-        <SurveyEditor
-          selectedSurveyId={selectedSurveyId}
-          viewList={viewList}
-          viewDetail={viewDetail}
-        />
-      )
-      default: throw new Error(`Unexpected View`)
-    }
-  })()
+  return (
+    <Router>
+      <Switch>
+        <Route path='/surveys/:id'>
+          <SurveyDetail
+            viewEditor={viewEditor}
+          />
+        </Route>
+        <Route path='/surveys'>
+          <SurveyList
+            viewDetail={viewDetail}
+            viewEditor={viewEditor}
+          />
+        </Route>
+        <Route path='/surveys/:id/edit'>
+          <SurveyEditor
+            viewList={viewList}
+            viewDetail={viewDetail}
+          />
+        </Route>
+      </Switch>
+    </Router>
+  )
 }
 
 SurveyControl.propTypes = {

@@ -1,5 +1,6 @@
 import React from "react"
 import { func, string, shape } from 'prop-types'
+import { useParams } from "react-router-dom"
 import { useSelector } from 'react-redux'
 import {
   useFirestore,
@@ -8,8 +9,10 @@ import {
 } from 'react-redux-firebase'
 import Survey from "./Survey"
 
-function SurveyDetail({ selectedSurveyId, viewEditor, viewList }) {
+function SurveyDetail({ viewEditor, viewList }) {
   const firestore = useFirestore()
+
+  const { id: selectedSurveyId } = useParams()
 
   useFirestoreConnect([
     { collection: `surveys` },
