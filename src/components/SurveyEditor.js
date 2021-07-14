@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
-import { useParams, useHistory } from "react-router-dom"
+import { useParams, useHistory, Link } from "react-router-dom"
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase'
 
 function SurveyEditor() {
@@ -85,7 +85,9 @@ function SurveyEditor() {
         placeholder='Survey Question 3.'
         defaultValue={selectedSurvey.question3}
       />
-      <button type='button' onClick={() => { }}>Cancel</button>
+      <Link to={`/surveys?selected=${selectedSurveyId}`}>
+        <button type='button' onClick={() => { }}>Cancel</button>
+      </Link>
       <button type='submit'>Done</button>
     </form>
   )
