@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
-import { func, string } from 'prop-types'
-import { useParams, Link, useHistory } from "react-router-dom"
+import { useParams, useHistory } from "react-router-dom"
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase'
 
-function SurveyEditor({ viewList }) {
+function SurveyEditor() {
   const firestore = useFirestore()
   const history = useHistory()
   const { id: selectedSurveyId } = useParams()
@@ -18,7 +17,9 @@ function SurveyEditor({ viewList }) {
 
   useFirestoreConnect([{ collection: `surveys` }])
 
-  const survey = useSelector(state => state.firestore.data.surveys[selectedSurveyId])
+  const survey = useSelector(
+    state => state.firestore.data.surveys[selectedSurveyId]
+  )
 
   useEffect(() => {
     if (survey) setSelectedSurvey(survey)
@@ -84,15 +85,10 @@ function SurveyEditor({ viewList }) {
         placeholder='Survey Question 3.'
         defaultValue={selectedSurvey.question3}
       />
-      <button type='button' onClick={viewList}>Cancel</button>
+      <button type='button' onClick={() => { }}>Cancel</button>
       <button type='submit'>Done</button>
     </form>
   )
-}
-
-SurveyEditor.propTypes = {
-  selectedSurveyId: string,
-  viewList: func,
 }
 
 export default SurveyEditor

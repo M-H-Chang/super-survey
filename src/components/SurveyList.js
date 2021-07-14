@@ -2,7 +2,6 @@
 import { css } from "@emotion/react"
 import { useSelector } from 'react-redux'
 import { useFirestoreConnect, isLoaded } from 'react-redux-firebase'
-import { func } from "prop-types"
 import { Link } from "react-router-dom"
 import SurveyPreview from "./SurveyPreview"
 
@@ -49,14 +48,9 @@ const SurveyList = ({ viewDetail, viewEditor }) => {
           </h3>
         )
       }
-      <button onClick={() => viewEditor()}>Add Survey</button>
+      <Link to='/surveys/new'>New</Link>
     </main>
   )
-}
-
-SurveyList.propTypes = {
-  viewDetail: func.isRequired,
-  viewEditor: func.isRequired,
 }
 
 export default SurveyList

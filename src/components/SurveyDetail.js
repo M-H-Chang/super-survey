@@ -1,5 +1,4 @@
 import React from "react"
-import { func, string, shape } from 'prop-types'
 import { useSelector } from 'react-redux'
 import { useParams, Link, useHistory } from "react-router-dom"
 import {
@@ -46,14 +45,8 @@ function SurveyDetail() {
         )
         : <h3>Loading....</h3>
       }
-
     </>
   )
-}
-
-SurveyDetail.propTypes = {
-  selectedSurveyId: string,
-  viewList: func,
 }
 
 export default SurveyDetail
