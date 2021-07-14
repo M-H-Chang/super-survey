@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useFirestoreConnect, isLoaded } from 'react-redux-firebase'
 import { func } from "prop-types"
 import { Link } from "react-router-dom"
-import Survey from "./Survey"
+import SurveyPreview from "./SurveyPreview"
 
 const SurveyList = ({ viewDetail, viewEditor }) => {
   useFirestoreConnect([
@@ -33,7 +33,7 @@ const SurveyList = ({ viewDetail, viewEditor }) => {
     >
       {isLoaded(surveys)
         ? surveys.map(survey => (
-          <Survey
+          <SurveyPreview
             onClick={() => viewDetail(survey.id)}
             title={survey.title}
             question1={survey.question1}

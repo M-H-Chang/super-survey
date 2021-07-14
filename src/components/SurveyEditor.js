@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { func, string } from 'prop-types'
+import { useParams, Link, useHistory } from "react-router-dom"
 import { useFirestoreConnect, useFirestore } from 'react-redux-firebase'
 
-function SurveyEditor({ selectedSurveyId, viewList }) {
+function SurveyEditor({ viewList }) {
   const firestore = useFirestore()
+  const history = useHistory()
+  const { id: selectedSurveyId } = useParams()
 
   const [selectedSurvey, setSelectedSurvey] = useState({
     title: ``,
@@ -35,12 +38,12 @@ function SurveyEditor({ selectedSurveyId, viewList }) {
   }
 
   function addNewSurveyToFirestore() {
-    viewList()
+    history.push(`/surveys`)
     return firestore.collection(`surveys`).add(selectedSurvey)
   }
 
   function updateSurvey() {
-    viewList()
+    history.push(`/surveys`)
     return firestore.update(
       {
         collection: `surveys`,

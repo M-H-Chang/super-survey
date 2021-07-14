@@ -1,15 +1,16 @@
 import React from "react"
 import { func, string, shape } from 'prop-types'
-import { useParams } from "react-router-dom"
 import { useSelector } from 'react-redux'
+import { useParams, Link, useHistory } from "react-router-dom"
 import {
   useFirestore,
   useFirestoreConnect,
   isLoaded,
 } from 'react-redux-firebase'
-import Survey from "./Survey"
 
-function SurveyDetail({ viewEditor, viewList }) {
+function SurveyDetail() {
+  const history = useHistory()
+
   const firestore = useFirestore()
 
   const { id: selectedSurveyId } = useParams()
@@ -19,7 +20,7 @@ function SurveyDetail({ viewEditor, viewList }) {
   ])
 
   const deleteSurvey = () => {
-    viewList()
+    history.push(`/surveys`)
     return firestore.delete({ collection: `surveys`, doc: selectedSurveyId })
   }
 
@@ -27,18 +28,19 @@ function SurveyDetail({ viewEditor, viewList }) {
     state => state.firestore.data.surveys[selectedSurveyId]
   )
 
+  const { title, question1, question2, question3 } = survey
+
   return (
     <>
       {isLoaded(survey)
         ? (
           <>
-            <Survey
-              onClick={() => viewEditor(selectedSurveyId)}
-              title={survey.title}
-              question1={survey.question1}
-              question2={survey.question2}
-              question3={survey.question3}
-            />
+            <Link to={`/surveys/${selectedSurveyId}/edit`}>
+              <h2>{title}</h2>
+              <p>{question1}</p>
+              <p>{question2}</p>
+              <p>{question3}</p>
+            </Link>
             <button type='button' onClick={() => deleteSurvey()}>Delete</button>
           </>
         )
