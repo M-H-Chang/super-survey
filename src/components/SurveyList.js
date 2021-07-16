@@ -21,7 +21,7 @@ const SurveyList = () => {
 
   const surveys = useSelector(state => state.firestore.ordered.surveys)
 
-  console.log(queryString.parse(search))
+  console.log(useLocation())
 
   const myFavColor = `red`
 

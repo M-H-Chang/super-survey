@@ -26,6 +26,8 @@ function SurveyEditor() {
   }, [survey])
 
   function handleChange(e) {
+    console.log(e)
+
     const { value, name } = e.target
     const updatedSurvey = { ...selectedSurvey }
     updatedSurvey[name] = value
@@ -33,6 +35,8 @@ function SurveyEditor() {
   }
 
   const handleSubmit = e => {
+    console.log(e)
+
     e.preventDefault()
     if (selectedSurveyId) updateSurvey()
     else addNewSurveyToFirestore()

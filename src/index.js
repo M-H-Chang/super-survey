@@ -5,9 +5,11 @@ import { Provider } from 'react-redux'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import "./main.scss"
+import { AuthProvider } from './auth'
 import App from "./components/App"
 import rootReducer from './reducers/index'
 import firebase from "./firebase"
+import 'firebase/auth'
 
 // import reportWebVitals from "./reportWebVitals"
 
@@ -17,6 +19,7 @@ const rrfProps = {
   firebase,
   config: {
     userProfile: `users`,
+    useFirestoreForProfile: true,
   },
   dispatch: store.dispatch,
   createFirestoreInstance,
@@ -24,11 +27,13 @@ const rrfProps = {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <ReactReduxFirebaseProvider {...rrfProps}>
-        <App />
-      </ReactReduxFirebaseProvider>
-    </Provider>
+    <AuthProvider>
+      <Provider store={store}>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          <App />
+        </ReactReduxFirebaseProvider>
+      </Provider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById(`root`)
 )

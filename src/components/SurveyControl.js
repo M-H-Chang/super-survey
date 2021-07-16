@@ -4,6 +4,7 @@ import {
   Switch,
   Route,
 } from "react-router-dom"
+import AuthPage from './AuthPage'
 import SurveyList from './SurveyList'
 import SurveyDetail from './SurveyDetail'
 import SurveyEditor from './SurveyEditor'
@@ -22,6 +23,9 @@ const SurveyControl = () => (
       </Route>
       <Route exact path='/surveys'>
         <SurveyList />
+      </Route>
+      <Route exact path='/sign-in'>
+        <AuthPage />
       </Route>
     </Switch>
   </Router>
